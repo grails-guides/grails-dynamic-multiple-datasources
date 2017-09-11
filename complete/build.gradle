@@ -61,7 +61,9 @@ dependencies {
     compile 'org.grails.plugins:spring-security-core:3.2.0.M1'
     compile "org.grails.plugins:spring-security-rest:2.0.0.M2"
     //end::securityDependencies[]
+    //tag::mysqlDependency[]
     runtime 'mysql:mysql-connector-java:5.1.40'
+    //end::mysqlDependency[]
 }
 
 bootRun {
