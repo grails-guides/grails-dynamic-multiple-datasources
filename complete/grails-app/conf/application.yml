@@ -126,8 +126,4 @@ grails:
                     pattern: /plan
                     access:
                         - ROLE_VILLAIN
-                -
-                    pattern: /plan/save
-                    access:
-                        - ROLE_VILLAIN
 #end::security[]
