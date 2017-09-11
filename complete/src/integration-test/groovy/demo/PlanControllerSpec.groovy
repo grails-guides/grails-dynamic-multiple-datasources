@@ -17,6 +17,10 @@ class PlanControllerSpec extends Specification {
 
     RoleService roleService
 
+    VillainService villainService
+
+    DatabaseProvisioningService databaseProvisioningService
+
     @Autowired
     HibernateDatastore hibernateDatastore
 
@@ -39,13 +43,13 @@ class PlanControllerSpec extends Specification {
 
     def "Plans for current logged user are retrieved"() {
         when:
-        User vector = userService.saveVillain('vector', 'secret')
+        User vector = villainService.saveVillain('vector', 'secret')
 
         then:
         hibernateDatastore.connectionSources.size() == old(hibernateDatastore.connectionSources.size()) + 1
 
         when:
-        User gru = userService.saveVillain('gru', 'secret')
+        User gru = villainService.saveVillain('gru', 'secret')
 
         then:
         hibernateDatastore.connectionSources.size() == old(hibernateDatastore.connectionSources.size()) + 1
@@ -102,6 +106,12 @@ class PlanControllerSpec extends Specification {
         resp.status == 200
         resp.json.toString() == '[{"title":"Steal a Pyramid"}]'
 
+        when:
+        List<String> datasourceNames = databaseProvisioningService.findAllDatabaseConfiguration().collect { it.dataSourceName }
+
+        then:
+        datasourceNames == ['gru', 'vector']
+
         cleanup:
         Tenants.withId('vector') {
             planService.deleteByTitle('Steal a Pyramid')
@@ -111,6 +121,6 @@ class PlanControllerSpec extends Specification {
         }
         userService.deleteUser(gru)
         userService.deleteUser(vector)
-        roleService.delete(UserService.ROLE_VILLAIN)
+        roleService.delete(VillainService.ROLE_VILLAIN)
     }
 }

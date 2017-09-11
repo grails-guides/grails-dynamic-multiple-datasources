@@ -7,4 +7,6 @@ import groovy.transform.CompileStatic
 @Service(Role)
 interface RoleService {
     void delete(String authority)
+    Role findByAuthority(String authority)
+    Role saveByAuthority(String authority)
 }

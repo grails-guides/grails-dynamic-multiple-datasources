@@ -1,30 +1,21 @@
 package demo
 
+import grails.gorm.services.Service
 import grails.gorm.transactions.Transactional
 import groovy.transform.CompileStatic
 
 @CompileStatic
-class UserService {
+interface IUserService {
+    User save(String username, String password)
+}
 
-    public static final ROLE_VILLAIN = 'ROLE_VILLAIN'
-
-    @Transactional
-    User saveVillain(String username, String password) {
-        Role role = Role.where { authority == ROLE_VILLAIN }.get()
-        if ( !role ) {
-            role = new Role(authority: ROLE_VILLAIN)
-            role.save(failOnError: true)
-        }
-        User user = new User(username: username, password: password)
-        user.save(failOnError: true)
-        UserRole userRole = new UserRole(user: user, role: role)
-        userRole.save(failOnError: true)
-        user
-    }
+@Service(User)
+@CompileStatic
+abstract class UserService implements IUserService {
 
     @Transactional
-    void deleteUser(User u) {
-        UserRole.where { user == u }.deleteAll()
-        u?.delete()
+    void deleteUser(User userParam) {
+        UserRole.where { user == userParam }.deleteAll()
+        userParam.delete()
     }
 }
