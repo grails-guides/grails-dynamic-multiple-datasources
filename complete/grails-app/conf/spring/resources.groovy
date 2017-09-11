@@ -1,12 +1,11 @@
+//tag::userInsertedListenerImport[]
+import demo.UserInsertedListener
+//end::userInsertedListenerImport[]
 //tag::tenantResolverImport[]
 import demo.CurrentUserByJwtTenantResolver
-import demo.UserInsertedListener
-
 //end::tenantResolverImport[]
 //tag::passwordEncodingImport[]
 import demo.UserPasswordEncoderListener
-import demo.VilliansConnectionSources
-
 //end::passwordEncodingImport[]
 // Place your Spring DSL code here
 //tag::beans[]
