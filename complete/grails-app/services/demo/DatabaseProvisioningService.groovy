@@ -18,11 +18,11 @@ class DatabaseProvisioningService {
     static DatabaseConfiguration findDatabaseConfigurationByUsername(String username) {
         Map<String, Object> configuration = [
                 'hibernate.hbm2ddl.auto':'none',
-                'dataSource.username': 'root',
-                'dataSource.password': 'root',
-                'dataSource.driverClassName': 'com.mysql.jdbc.Driver',
-                'dataSource.dialect': 'org.hibernate.dialect.MySQL5InnoDBDialect',
-                'dataSource.url':"jdbc:mysql://127.0.0.1:8889/$username"
+                'username': 'root',
+                'password': 'root',
+                'driverClassName': 'com.mysql.jdbc.Driver',
+                'dialect': 'org.hibernate.dialect.MySQL5InnoDBDialect',
+                'url':"jdbc:mysql://127.0.0.1:8889/$username"
         ] as Map<String, Object>
         new DatabaseConfiguration(dataSourceName: username, configuration: configuration)
     }

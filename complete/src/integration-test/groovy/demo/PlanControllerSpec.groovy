@@ -42,15 +42,13 @@ class PlanControllerSpec extends Specification {
         User vector = userService.saveVillain('vector', 'secret')
 
         then:
-        //hibernateDatastore.connectionSources.size() == old(hibernateDatastore.connectionSources.size()) + 1
-        true
+        hibernateDatastore.connectionSources.size() == old(hibernateDatastore.connectionSources.size()) + 1
 
         when:
         User gru = userService.saveVillain('gru', 'secret')
 
         then:
-        //hibernateDatastore.connectionSources.size() == old(hibernateDatastore.connectionSources.size()) + 1
-        true
+        hibernateDatastore.connectionSources.size() == old(hibernateDatastore.connectionSources.size()) + 1
 
         when: 'login with the gru'
         String gruAccessToken = accessToken('gru', 'secret')
@@ -105,7 +103,7 @@ class PlanControllerSpec extends Specification {
         resp.json.toString() == '[{"title":"Steal a Pyramid"}]'
 
         cleanup:
-        Tenants.withId('gru') {
+        Tenants.withId('vector') {
             planService.deleteByTitle('Steal a Pyramid')
         }
         Tenants.withId('gru') {
