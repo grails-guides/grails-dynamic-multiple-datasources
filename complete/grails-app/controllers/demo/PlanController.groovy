@@ -24,9 +24,4 @@ class PlanController {
         planService.save(cmd.title)
         render status: 201
     }
-
-    def delete(String title) {
-        planService.deleteByTitle(title)
-        render status: 204
-    }
 }
