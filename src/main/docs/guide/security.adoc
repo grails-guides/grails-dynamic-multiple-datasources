@@ -1,0 +1,62 @@
+Create security domain classes. You could create these classes with Spring Security Core `s2-quickstart`.
+
+[source,groovy]
+.grails-app/domain/demo/User.groovy
+----
+include::{sourceDir}/grails-app/domain/demo/User.groovy[]
+----
+
+[source,groovy]
+.grails-app/domain/demo/Role.groovy
+----
+include::{sourceDir}/grails-app/domain/demo/Role.groovy[]
+----
+
+Create a class `UserPasswordEncoderListener` which deals with the User's password encoding.
+
+It uses the `@Listener` annotation to listen *synchronously* to https://async.grails.org/latest/guide/index.html#gormEvents[Events from GORM].
+
+[source,groovy]
+.src/main/groovy/demo/UserPasswordEncoderListener.groovy
+----
+include::{sourceDir}/src/main/groovy/demo/UserPasswordEncoderListener.groovy[]
+----
+
+Define the previous listener as a bean:
+
+[source,groovy]
+.grails-app/conf/spring/resources.groovy
+----
+include::{sourceDir}/grails-app/conf/spring/resources.groovy[tag=passwordEncodingImport]
+include::{sourceDir}/grails-app/conf/spring/resources.groovy[tag=beans]
+include::{sourceDir}/grails-app/conf/spring/resources.groovy[tag=passwordEncodingBean]
+}
+----
+
+Configure Spring Security Core in `application.yml`
+
+[source,yml]
+.grails-app/conf/application.yml
+----
+grails
+include::{sourceDir}/grails-app/conf/application.yml[tag=security]
+----
+
+
+
+Create a service to handle User creation and deletion.
+
+[source,groovy]
+.grails-app/services/demo/UserService.groovy
+----
+include::{sourceDir}/grails-app/services/demo/UserService.groovy[]
+----
+
+Create a http://gorm.grails.org/latest/hibernate/manual/index.html#dataServices[Data Service] to handle role deletion.
+
+
+[source,groovy]
+.grails-app/services/demo/RoleService.groovy
+----
+include::{sourceDir}/grails-app/services/demo/RoleService.groovy[]
+----

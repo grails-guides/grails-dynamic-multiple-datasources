@@ -1,0 +1,37 @@
+Define a Custom Tenant Resolver. Given a request such as:
+
+[source, bash]
+----
+## Request Duplicate
+curl "http://localhost:8080/plan" \
+     -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJwcmluY2lwYWwiOiJINHNJQUFBQUFBQUFBSlZTdjA4VVFSUitleHhDZ2xFd2tjUUNHN0V6ZXdtV1Z3RkJBcGtjeHZNc01OSE03VDZXZ2RtWmRXYjJ1R3ZJVlZKUVFGUVNFbHBMXC9oTnRcL0FPTUZMVFV0THhaT1BhMElVNjFlZlB0OSt2TjZRV01XZ012RThPRnRHRW04MFNvMEdaR3FNUmlsQnZoZW1GdTBjVG9Dc1J5QVd6UkJLNVBVSUdBUVVYRURoNnhMZDdoTmNsVlVsdHJiMkhrNmwwRGM5b2tONHdiaHFlNG84MTJlTXNkYVlOXC9DWlRVd2ZjS2pLM0RGSThpblN2WDBHcXBtd21EOFRwTWxqT21vMjBcL2VoelJEU29udUxURDBERlV2QzB4WmpEQmM3ZXBTVldnZGZEdzJtenVoS3cxMGRVWmpHZmNXbkwzVDVLbTg5Yjl2YmVwS01FbjJJVnFOd3ZvVUhmUFBUVDBQT0dpbHBKU0M2M3NiRXVsT2hZYndvc1RmM1wvbXk2K0RrMzZyQWtDZHZMajduM0wrWkFINlB6NWNQaTJLRGlJSDAwUFdTMWk5bTVHYnFaTDVyVUd2XC9QdjQ5ZGVqaTczM0k2VHNFYVwvK2Z4K3o4emZOOVJaMW1uSERuUjdhRWRIdVZQMDNrU1wvY1RUN1lRaTlzaWpTVFNDOUtPWXh2SlVwaWlsczFXZzc2ZG5EXC96UnBiK3ZodWhiSDVsWVlmM090UWRtMUkrRUdSMnk4c1pKcld0WDkrK1BQZzJSOGlXWVhSRHBjNVV1MlRKYWlScDIwMG4wK1BaaWErbmUwWElRWVArZ3JPZUdRVkZBTUFBQT09Iiwic3ViIjoidmVjdG9yIiwicm9sZXMiOlsiUk9MRV9WSUxMQUlOIl0sImV4cCI6MTUwNDc4NDcyNSwiaWF0IjoxNTA0NzgxMTI1fQ.GlLNlHcnYhR7MnlZarB8L96bxxZ12r2fvbLjz7A3D_E" \
+     -H "Accept: application/json"
+----
+
+which contains a JWT token in the `Authorization` header. The Tenant Resolver, extracts the JWT token, re-hydrates it and
+extracts the username.
+
+[source,groovy]
+.src/main/groovy/demo/CurrentUserByJwtTenantResolver.groovy
+----
+include::{sourceDir}/src/main/groovy/demo/CurrentUserByJwtTenantResolver.groovy[]
+----
+
+Define the Custom Tenant Resolver as a bean:
+
+[source,groovy]
+.grails-app/conf/spring/resources.groovy
+----
+include::{sourceDir}/grails-app/conf/spring/resources.groovy[tag=tenantResolverImport]
+include::{sourceDir}/grails-app/conf/spring/resources.groovy[tag=beans]
+include::{sourceDir}/grails-app/conf/spring/resources.groovy[tag=tenantResolverBean]
+}
+----
+
+Create an Integration Test to test the custom Tenant Resolver.
+
+[source,groovy]
+.src/integration-test/groovy/demo/CurrentUserByJwtTenantResolverSpec.groovy
+----
+include::{sourceDir}/src/integration-test/groovy/demo/CurrentUserByJwtTenantResolverSpec.groovy[]
+----

@@ -1,0 +1,17 @@
+training:
+  title: Grails Training
+gettingStarted:
+  title: Getting Started
+  requirements: What you will need
+  howto: How to complete the guide
+writingTheApp:
+  title: Writing the Application
+  domain: Domain Class
+  controller: Controller
+  security: Wire up Security
+  customresolver: Custom Tenant Resolver
+  test: Functional Test
+runTests:
+  title: Run the tests
+helpWithGrails:
+  title: Help with Grails
