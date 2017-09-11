@@ -1,4 +1,5 @@
-Create a functional test which verifies that we can consume the API switching users.
+We have modified slightly the functional test of http://guides.grails.org/grails-custom-security-tenant-resolver/guide/index.html#test[Custom Tenant Resolver by JWT] Guide to verify
+that a new connection source is created when a new `User` is inserted.
 
 [source,groovy]
 .src/integration-test/groovy/demo/PlanControllerSpec.groovy
@@ -6,4 +7,4 @@ Create a functional test which verifies that we can consume the API switching us
 include::{sourceDir}/src/integration-test/groovy/demo/PlanControllerSpec.groovy[]
 ----
 
-<1> You can use a specific tenant id using the withId method
+<1> Verify a new connection source exists

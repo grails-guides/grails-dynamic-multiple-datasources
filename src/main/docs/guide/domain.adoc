@@ -1,16 +1,4 @@
-Configure Multi-Tenancy by modifying `application.yml`.
-
-[source,yml]
-.grails-app/conf/application.yml
-----
-grails
-include::{sourceDir}/grails-app/conf/application.yml[tag=multiTenancyConfiguration]
-----
-
-<1> Define Multi-Tenancy mode as `DISCRIMINATOR`
-<2> Set the Tenant Resolver class with a custom class which you will write later in this guide.
-
-Create a Domain Class
+Change the Domain Class. You no longer need to configure a column to deal with `tenantId` because you are using DATABASE Multi-tenancy mode in this guide.
 
 [source,groovy]
 .grails-app/domain/demo/Plan.groovy
@@ -19,19 +7,3 @@ include::{sourceDir}/grails-app/domain/demo/Plan.groovy[]
 ----
 
 <1> Implement http://gorm.grails.org/latest/hibernate/api/grails/gorm/MultiTenant.html[MultiTenant] trait to regard this domain class as multi tenant.
-<2> Setup the tenant identifier as a column named `username`
-
-Create an interface `PlanService` which is a http://gorm.grails.org/latest/hibernate/manual/index.html#dataServices[GORM Data Service].
-
-[source,groovy]
-.grails-app/services/demo/PlanService.groovy
-----
-include::{sourceDir}/grails-app/services/demo/PlanService.groovy[]
-----
-
-<1> Annotate it with the `grails.gorm.services.Service` annotation with the domain class the service applies to.
-<2> Resolve the current tenant for the context of this class
-
-
-
-

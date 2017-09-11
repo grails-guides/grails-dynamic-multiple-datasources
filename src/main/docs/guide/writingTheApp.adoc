@@ -1,1 +1,26 @@
-NOTE: This guide uses Multi-Tenancy DISCRIMINATOR mode. To learn more, read http://guides.grails.org/discriminator-per-tenant/guide/index.html[Single Database Multi-Tenancy Discriminator Column] Guide.
+NOTE: This guide uses Multi-Tenancy DATABASE mode. To learn more, read http://guides.grails.org/database-per-tenant/guide/index.html[Database per Tenant Multi-Tenancy] Guide.
+
+This guides shows a typical flow you will see when creating a SAS ( Software as a Service ) application using
+Multi-Tenancy Database mode.
+
+image::flow.png[]
+
+To simplify this guide, the Database provising processed is simplified.
+
+Create two MySQL databases with the next schema.
+
+[source, sql]
+----
+CREATE TABLE `plan` (
+  `id` bigint(20) NOT NULL,
+  `version` bigint(20) NOT NULL,
+  `title` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+----
+
+Named one database `gru` and the other `vector`.
+
+In the guide app, when a user registers, a database with identical name as the username is wired-up.
+
+In a real-world app you will probably have a more complicated setup which may involve saving up the database url and credentials of each
+user's database in a secured way in a database table of the default datasource.

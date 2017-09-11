@@ -14,10 +14,10 @@ class UserInsertedListener {
     @Autowired
     HibernateDatastore hibernateDatastore
 
-    @Listener(User)
-    void onUserPostInsertEvent(PostInsertEvent event) {
+    @Listener(User) // <1>
+    void onUserPostInsertEvent(PostInsertEvent event) { // <2>
         String username = event.getEntityAccess().getPropertyValue("username")
-        DatabaseConfiguration databaseConfiguration = DatabaseProvisioningService.findDatabaseConfigurationByUsername(username)
-        hibernateDatastore.getConnectionSources().addConnectionSource(databaseConfiguration.dataSourceName, databaseConfiguration.configuration)
+        DatabaseConfiguration databaseConfiguration = DatabaseProvisioningService.findDatabaseConfigurationByUsername(username) // <3>
+        hibernateDatastore.getConnectionSources().addConnectionSource(databaseConfiguration.dataSourceName, databaseConfiguration.configuration) // <4>
     }
 }

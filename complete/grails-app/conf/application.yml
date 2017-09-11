@@ -69,8 +69,8 @@ grails:
         defaultScope: singleton
     converters:
         encoding: UTF-8
-
 ---
+#tag::defaultDatasource[]
 hibernate:
     cache:
         queries: false
@@ -81,10 +81,11 @@ dataSource:
     jmxExport: true
     driverClassName: com.mysql.jdbc.Driver
     dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-    username: root
-    password: root
+    username: root # <1>
+    password: root # <1>
     dbCreate: update
-    url: jdbc:mysql://127.0.0.1:8889/minions
+    url: jdbc:mysql://127.0.0.1:8889/minions # <1>
+#end::defaultDatasource[]
 ---
 #tag::security[]
 grails:

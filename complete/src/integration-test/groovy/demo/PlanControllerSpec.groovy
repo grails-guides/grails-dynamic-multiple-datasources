@@ -3,23 +3,18 @@ package demo
 import grails.gorm.multitenancy.Tenants
 import grails.plugins.rest.client.RestBuilder
 import grails.testing.mixin.integration.Integration
-import groovy.json.JsonOutput
 import org.grails.orm.hibernate.HibernateDatastore
 import org.springframework.beans.factory.annotation.Autowired
 import spock.lang.Specification
+import spock.lang.IgnoreIf
 
+@IgnoreIf( { System.getenv('TRAVIS') as boolean } )
 @Integration
 class PlanControllerSpec extends Specification {
-
     PlanService planService
-
     UserService userService
-
-    RoleService roleService
-
     VillainService villainService
-
-    DatabaseProvisioningService databaseProvisioningService
+    RoleService roleService
 
     @Autowired
     HibernateDatastore hibernateDatastore
@@ -46,13 +41,20 @@ class PlanControllerSpec extends Specification {
         User vector = villainService.saveVillain('vector', 'secret')
 
         then:
-        hibernateDatastore.connectionSources.size() == old(hibernateDatastore.connectionSources.size()) + 1
+        hibernateDatastore.connectionSources.size() == old(hibernateDatastore.connectionSources.size()) + 1 // <1>
 
         when:
         User gru = villainService.saveVillain('gru', 'secret')
 
         then:
-        hibernateDatastore.connectionSources.size() == old(hibernateDatastore.connectionSources.size()) + 1
+        hibernateDatastore.connectionSources.size() == old(hibernateDatastore.connectionSources.size()) + 1 // <1>
+
+        Tenants.withId("gru") {
+            planService.save('Steal the Moon')
+        }
+        Tenants.withId("vector") {
+            planService.save('Steal a Pyramid')
+        }
 
         when: 'login with the gru'
         String gruAccessToken = accessToken('gru', 'secret')
@@ -61,17 +63,7 @@ class PlanControllerSpec extends Specification {
         gruAccessToken
 
         when:
-        def resp = rest.post("http://localhost:${serverPort}/plan") {
-            accept('application/json')
-            header('Authorization', "Bearer ${gruAccessToken}")
-            json JsonOutput.toJson([title: "Steal the Moon"])
-        }
-
-        then:
-        resp.status == 201
-
-        when:
-        resp = rest.get("http://localhost:${serverPort}/plan") {
+        def resp = rest.get("http://localhost:${serverPort}/plan") {
             accept('application/json')
             header('Authorization', "Bearer ${gruAccessToken}")
         }
@@ -87,16 +79,6 @@ class PlanControllerSpec extends Specification {
         vectorAccessToken
 
         when:
-        resp = rest.post("http://localhost:${serverPort}/plan") {
-            accept('application/json')
-            header('Authorization', "Bearer ${vectorAccessToken}")
-            json JsonOutput.toJson([title: "Steal a Pyramid"])
-        }
-
-        then:
-        resp.status == 201
-
-        when:
         resp = rest.get("http://localhost:${serverPort}/plan") {
             accept('application/json')
             header('Authorization', "Bearer ${vectorAccessToken}")
@@ -106,18 +88,12 @@ class PlanControllerSpec extends Specification {
         resp.status == 200
         resp.json.toString() == '[{"title":"Steal a Pyramid"}]'
 
-        when:
-        List<String> datasourceNames = databaseProvisioningService.findAllDatabaseConfiguration().collect { it.dataSourceName }
-
-        then:
-        datasourceNames == ['gru', 'vector']
-
         cleanup:
-        Tenants.withId('vector') {
-            planService.deleteByTitle('Steal a Pyramid')
-        }
-        Tenants.withId('gru') {
+        Tenants.withId("gru") {
             planService.deleteByTitle('Steal the Moon')
+        }
+        Tenants.withId("vector") {
+            planService.deleteByTitle('Steal a Pyramid')
         }
         userService.deleteUser(gru)
         userService.deleteUser(vector)

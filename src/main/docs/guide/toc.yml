@@ -6,11 +6,11 @@ gettingStarted:
   howto: How to complete the guide
 writingTheApp:
   title: Writing the Application
+  configuration: Configuration
   domain: Domain Class
-  controller: Controller
-  security: Wire up Security
-  customresolver: Custom Tenant Resolver
+  gormevents: GORM Events
   test: Functional Test
+  bootstrap: Add Connection Source on Start-up
 runTests:
   title: Run the tests
 helpWithGrails:

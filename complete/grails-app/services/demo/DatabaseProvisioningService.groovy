@@ -18,10 +18,10 @@ class DatabaseProvisioningService {
 
     static Map<String, Object> configurationByUsername(String username) {
         [
-                'hibernate.hbm2ddl.auto':'none',
-                'username': 'root',
-                'password': 'root',
-                'url':"jdbc:mysql://127.0.0.1:8889/$username"
+                'hibernate.hbm2ddl.auto':'none', // <1>
+                'username': 'root', // <2>
+                'password': 'root', // <2>
+                'url':"jdbc:mysql://127.0.0.1:8889/$username" // <2>
         ] as Map<String, Object>
     }
 }

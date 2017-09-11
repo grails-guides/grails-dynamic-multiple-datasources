@@ -10,7 +10,7 @@ class BootStrap {
     DatabaseProvisioningService databaseProvisioningService
 
     def init = { servletContext ->
-        for (DatabaseConfiguration databaseConfiguration : databaseProvisioningService.findAllDatabaseConfiguration() ) {
+        for (DatabaseConfiguration databaseConfiguration : databaseProvisioningService.findAllDatabaseConfiguration() ) { // <1>
             hibernateDatastore.getConnectionSources().addConnectionSource(databaseConfiguration.dataSourceName, databaseConfiguration.configuration)
         }
     }

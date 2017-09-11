@@ -1,3 +1,4 @@
+
 package demo
 
 import grails.gorm.multitenancy.Tenants
@@ -84,5 +85,6 @@ class PlanControllerSpec extends Specification {
         userService.deleteUser(gru)
         userService.deleteUser(vector)
         roleService.delete(VillainService.ROLE_VILLAIN)
+
     }
 }
