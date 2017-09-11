@@ -6,11 +6,16 @@ grails:
     spring:
         transactionManagement:
             proxies: false
+#tag::multiTenancyConfiguration[]
     gorm:
+        multiTenancy:
+            mode: DISCRIMINATOR # <1>
+            tenantResolverClass: demo.CurrentUserByJwtTenantResolver # <2>
         reactor:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
+#end::multiTenancyConfiguration[]
 info:
     app:
         name: '@info.app.name@'
@@ -109,3 +114,45 @@ environments:
                 testOnReturn: false
                 jdbcInterceptors: ConnectionState
                 defaultTransactionIsolation: 2 # TRANSACTION_READ_COMMITTED
+---
+#tag::security[]
+grails:
+    plugin:
+        springsecurity:
+            securityConfigType: InterceptUrlMap
+            userLookup:
+                userDomainClassName: demo.User
+                authorityJoinClassName: demo.UserRole
+            authority:
+                className: demo.Role
+            filterChain:
+                chainMap:
+                    - # Stateless chain
+                        pattern: /**
+                        filters: 'JOINED_FILTERS,-exceptionTranslationFilter,-authenticationProcessingFilter,-securityContextPersistenceFilter,-rememberMeAuthenticationFilter'
+            interceptUrlMap:
+                -
+                    pattern: /
+                    access:
+                        - ROLE_VILLAIN
+                -
+                    pattern: /error
+                    access:
+                        - permitAll
+                -
+                    pattern: /api/login
+                    access:
+                        - ROLE_ANONYMOUS
+                -
+                    pattern: /api/validate
+                    access:
+                        - ROLE_ANONYMOUS
+                -
+                    pattern: /oauth/access_token
+                    access:
+                        - ROLE_ANONYMOUS
+                -
+                    pattern: /plan
+                    access:
+                        - ROLE_VILLAIN
+#end::security[]
