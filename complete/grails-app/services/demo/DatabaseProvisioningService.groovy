@@ -12,11 +12,11 @@ class DatabaseProvisioningService {
         usernames.collect { findDatabaseConfigurationByUsername(it) }
     }
 
-    static DatabaseConfiguration findDatabaseConfigurationByUsername(String username) {
+    DatabaseConfiguration findDatabaseConfigurationByUsername(String username) {
         new DatabaseConfiguration(dataSourceName: username, configuration: configurationByUsername(username))
     }
 
-    static Map<String, Object> configurationByUsername(String username) {
+    Map<String, Object> configurationByUsername(String username) {
         [
                 'hibernate.hbm2ddl.auto':'none', // <1>
                 'username': 'root', // <2>
