@@ -1,4 +1,4 @@
-Change the Domain Class. You no longer need to configure a column to deal with `tenantId` because you are using DATABASE Multi-tenancy mode in this guide.
+Since this guide utilizes `DATABASE` Multi-Tenancy where each tenants has a separate database, you no longer need to configure a column to deal with `tenantId`, hence the `tenantId` property can be removed:
 
 [source,groovy]
 .grails-app/domain/demo/Plan.groovy
