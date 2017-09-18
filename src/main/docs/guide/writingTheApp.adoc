@@ -2,8 +2,6 @@ NOTE: This guide uses Multi-Tenancy DATABASE mode. To learn more, read http://gu
 
 This guides shows a typical flow you will see when creating a SaaS ( Software as a Service ) application using Multi-Tenancy `DATABASE` mode.
 
-image::flow.png[]
-
 To simplify this guide, the Database provising process is simplified.
 
 Create two MySQL databases with the following schema.
