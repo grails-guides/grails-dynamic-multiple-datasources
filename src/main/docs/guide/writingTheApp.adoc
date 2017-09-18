@@ -19,4 +19,4 @@ The first database should be called `gru` and the second `vector`.
 
 In the guide application, when a user registers, a database with identical name as the username is provisioned for the user, thus each registered user will have their own unique database.
 
-In a real-world app you will probably have a more complicated setup which may involve saving the database url and credentials of each user's database in a secured way in a database table of the default datasource.
+In a real-world app, you will probably have a more complicated setup which may involve creating the database, creating the schema, saving the database url and credentials of each user's database in a secured way in a database table of the default datasource etc.
