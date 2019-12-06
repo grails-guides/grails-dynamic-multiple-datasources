@@ -1,10 +1,14 @@
 package demo
 
 import grails.gorm.multitenancy.Tenants
-import grails.plugins.rest.client.RestBuilder
 import grails.testing.mixin.integration.Integration
+import grails.testing.spock.OnceBefore
+import io.micronaut.http.HttpRequest
+import io.micronaut.http.HttpResponse
+import io.micronaut.http.client.HttpClient
 import org.grails.orm.hibernate.HibernateDatastore
 import org.springframework.beans.factory.annotation.Autowired
+import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.IgnoreIf
 
@@ -19,7 +23,13 @@ class PlanControllerSpec extends Specification {
     @Autowired
     HibernateDatastore hibernateDatastore
 
-    RestBuilder rest = new RestBuilder()
+    @Shared HttpClient client
+
+    @OnceBefore
+    void init() {
+        String baseUrl = "http://localhost:$serverPort"
+        this.client  = HttpClient.create(baseUrl.toURL())
+    }
 
     String accessToken(String u, String p) {
         def resp = rest.post("http://localhost:${serverPort}/api/login") {
@@ -63,14 +73,12 @@ class PlanControllerSpec extends Specification {
         gruAccessToken
 
         when:
-        def resp = rest.get("http://localhost:${serverPort}/plan") {
-            accept('application/json')
-            header('Authorization', "Bearer ${gruAccessToken}")
-        }
+        HttpRequest request = HttpRequest.GET('/plan').bearerAuth(gruAccessToken)
+        HttpResponse<String> resp = client.toBlocking().exchange(request, String)
 
         then:
         resp.status == 200
-        resp.json.toString() == '[{"title":"Steal the Moon"}]'
+        resp.body() == '[{"title":"Steal the Moon"}]'
 
         when: 'login with the vector'
         String vectorAccessToken = accessToken('vector', 'secret')
@@ -79,14 +87,13 @@ class PlanControllerSpec extends Specification {
         vectorAccessToken
 
         when:
-        resp = rest.get("http://localhost:${serverPort}/plan") {
-            accept('application/json')
-            header('Authorization', "Bearer ${vectorAccessToken}")
-        }
+        request = HttpRequest.GET('/plan').bearerAuth(vectorAccessToken)
+        resp = client.toBlocking().exchange(request, String)
+
 
         then:
         resp.status == 200
-        resp.json.toString() == '[{"title":"Steal a Pyramid"}]'
+        resp.body() == '[{"title":"Steal a Pyramid"}]'
 
         cleanup:
         Tenants.withId("gru") {

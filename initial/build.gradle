@@ -59,12 +59,15 @@ dependencies {
     runtime "com.h2database:h2"
     runtime "org.apache.tomcat:tomcat-jdbc"
     testCompile "org.grails:grails-gorm-testing-support"
-    testCompile "org.grails:grails-datastore-rest-client"
     testCompile "org.grails:grails-web-testing-support"
     //tag::securityDependencies[]
     compile 'org.grails.plugins:spring-security-core:4.0.0.RC2'
     compile "org.grails.plugins:spring-security-rest:3.0.0.RC1"
     //end::securityDependencies[]
+
+    //tag::micronaut-http-client[]
+    testCompile "io.micronaut:micronaut-http-client"
+    //end::micronaut-http-client[]
 }
 
 bootRun {

@@ -59,7 +59,6 @@ dependencies {
     runtime "com.h2database:h2"
     runtime "org.apache.tomcat:tomcat-jdbc"
     testCompile "org.grails:grails-gorm-testing-support"
-    testCompile "org.grails:grails-datastore-rest-client"
     testCompile "org.grails:grails-web-testing-support"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     //tag::securityDependencies[]
@@ -69,6 +68,10 @@ dependencies {
     //tag::mysqlDependency[]
     runtime 'mysql:mysql-connector-java:5.1.40'
     //end::mysqlDependency[]
+
+    //tag::micronaut-http-client[]
+    testCompile "io.micronaut:micronaut-http-client"
+    //end::micronaut-http-client[]
 }
 
 bootRun {
