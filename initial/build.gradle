@@ -62,8 +62,8 @@ dependencies {
     testCompile "org.grails:grails-datastore-rest-client"
     testCompile "org.grails:grails-web-testing-support"
     //tag::securityDependencies[]
-    compile 'org.grails.plugins:spring-security-core:3.2.0.M1'
     compile "org.grails.plugins:spring-security-rest:2.0.0.M2"
+    compile 'org.grails.plugins:spring-security-core:4.0.0.RC2'
     //end::securityDependencies[]
 }
 
