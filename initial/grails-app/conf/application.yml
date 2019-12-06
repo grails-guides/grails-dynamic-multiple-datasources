@@ -119,6 +119,11 @@ environments:
 grails:
     plugin:
         springsecurity:
+            rest:
+                token:
+                    storage:
+                        jwt:
+                            secret: pleaseChangeThisSecretForANewOne
             securityConfigType: InterceptUrlMap
             userLookup:
                 userDomainClassName: demo.User
