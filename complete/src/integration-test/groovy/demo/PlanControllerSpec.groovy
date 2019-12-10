@@ -5,6 +5,7 @@ import grails.testing.mixin.integration.Integration
 import grails.testing.spock.OnceBefore
 import io.micronaut.http.HttpRequest
 import io.micronaut.http.HttpResponse
+import io.micronaut.http.HttpStatus
 import io.micronaut.http.client.HttpClient
 import org.grails.orm.hibernate.HibernateDatastore
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,16 +33,10 @@ class PlanControllerSpec extends Specification {
     }
 
     String accessToken(String u, String p) {
-        def resp = rest.post("http://localhost:${serverPort}/api/login") {
-            accept('application/json')
-            contentType('application/json')
-            json {
-                username = u
-                password = p
-            }
-        }
-        if ( resp.status == 200 ) {
-            return resp.json.access_token
+        HttpRequest request = HttpRequest.POST('/api/login', [username: u, password: p])
+        HttpResponse<Map> resp = client.toBlocking().exchange(request, Map)
+        if ( resp.status == HttpStatus.OK ) {
+            return resp.body().access_token
         }
         null
     }
@@ -77,7 +72,7 @@ class PlanControllerSpec extends Specification {
         HttpResponse<String> resp = client.toBlocking().exchange(request, String)
 
         then:
-        resp.status == 200
+        resp.status == HttpStatus.OK
         resp.body() == '[{"title":"Steal the Moon"}]'
 
         when: 'login with the vector'
@@ -92,7 +87,7 @@ class PlanControllerSpec extends Specification {
 
 
         then:
-        resp.status == 200
+        resp.status == HttpStatus.OK
         resp.body() == '[{"title":"Steal a Pyramid"}]'
 
         cleanup:
