@@ -11,11 +11,11 @@ grails:
         multiTenancy:
             mode: DATABASE # <1>
             tenantResolverClass: demo.CurrentUserByJwtTenantResolver # <2>
+#end::multiTenancyConfiguration[]
         reactor:
             # Whether to translate GORM events into Reactor events
             # Disabled by default for performance reasons
             events: false
-#end::multiTenancyConfiguration[]
 info:
     app:
         name: '@info.app.name@'
