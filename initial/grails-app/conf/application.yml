@@ -123,7 +123,7 @@ grails:
                 token:
                     storage:
                         jwt:
-                            secret: pleaseChangeThisSecretForANewOne
+                            secret: qrD6h8K6S9503Q06Y6Rfk21TErImPYqa # change this for a new one
             securityConfigType: InterceptUrlMap
             userLookup:
                 userDomainClassName: demo.User
