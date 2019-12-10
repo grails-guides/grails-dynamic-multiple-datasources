@@ -21,6 +21,12 @@ apply plugin:"org.grails.plugins.views-json"
 
 repositories {
     maven { url "https://repo.grails.org/grails/core" }
+    maven {
+        url "https://oss.jfrog.org/artifactory/oss-snapshot-local"
+    }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
 }
 
 configurations {
@@ -61,7 +67,7 @@ dependencies {
     testCompile "org.grails:grails-web-testing-support"
     testRuntime "org.seleniumhq.selenium:selenium-htmlunit-driver:2.47.1"
     //tag::securityDependencies[]
-    compile 'org.grails.plugins:spring-security-core:4.0.0.RC2'
+    compile 'org.grails.plugins:spring-security-core:4.0.1.BUILD-SNAPSHOT'
     compile "org.grails.plugins:spring-security-rest:3.0.0.RC1"
     //end::securityDependencies[]
     //tag::mysqlDependency[]
