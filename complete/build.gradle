@@ -65,7 +65,7 @@ dependencies {
     compile "org.grails.plugins:spring-security-rest:3.0.0.RC1"
     //end::securityDependencies[]
     //tag::mysqlDependency[]
-    runtime 'mysql:mysql-connector-java:5.1.40'
+    runtime 'mysql:mysql-connector-java:5.1.48'
     //end::mysqlDependency[]
 
     //tag::micronaut-http-client[]
