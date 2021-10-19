@@ -12,7 +12,7 @@ import org.springframework.web.context.request.ServletWebRequest
 import spock.lang.Specification
 import spock.lang.IgnoreIf
 
-@IgnoreIf( { System.getenv('TRAVIS') as boolean } )
+@IgnoreIf( { System.getenv('CI') as boolean } )
 @Integration
 class CurrentUserByJwtTenantResolverSpec extends Specification {
 

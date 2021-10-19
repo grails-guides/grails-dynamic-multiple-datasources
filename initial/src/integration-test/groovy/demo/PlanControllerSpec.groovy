@@ -12,7 +12,7 @@ import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.IgnoreIf
 
-@IgnoreIf( { System.getenv('TRAVIS') as boolean } )
+@IgnoreIf( { System.getenv('CI') as boolean } )
 @Integration
 class PlanControllerSpec extends Specification {
     PlanService planService
